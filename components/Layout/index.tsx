@@ -11,9 +11,9 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="bg-white dark:bg-gray-800">
       <Navbar isOpen={toggle} toggle={runToggle} />
-      <div className="flex h-screen">
+      <div className="flex h-[95vh]">
         <Sidebar isOpen={toggle} />
-        <div className="p-[2rem] w-full"> {children}</div>
+        <div className="p-[2rem] w-full overflow-y-auto"> {children}</div>
       </div>
     </div>
   );

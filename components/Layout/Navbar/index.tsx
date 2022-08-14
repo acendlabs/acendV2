@@ -1,4 +1,8 @@
 import React, { FC } from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import useAuth from "../../../hooks/useAuth";
+import LoggedIn from "./LoggedIn";
 
 interface IProps {
   isOpen: boolean;
@@ -6,6 +10,8 @@ interface IProps {
 }
 
 const Navbar: FC<IProps> = ({ isOpen, toggle }) => {
+  const handleAuth = useAuth();
+  const { status, data } = useSession();
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -46,24 +52,31 @@ const Navbar: FC<IProps> = ({ isOpen, toggle }) => {
               </svg>
             )}
           </button>
-          <a href="https://flowbite.com/" className="flex items-center">
-            <img
-              src="/images/logo-1.png"
-              className="mr-2 w-9 h-9 rounded-full ring-2 ring-blue-400"
-              alt="acend Logo"
-            />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              Acend
-            </span>
-          </a>
+          <Link href="/">
+            <div className="flex items-center">
+              <img
+                src="/images/logo-1.png"
+                className="mr-2 w-9 h-9 rounded-full ring-2 ring-blue-400"
+                alt="acend Logo"
+              />
+              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                Acend
+              </span>
+            </div>
+          </Link>
         </div>
 
         <div className="flex md:order-2">
           <button
             type="button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={() => handleAuth()}
           >
-            Log In
+            {status === "authenticated" ? (
+              <LoggedIn address={data?.user.address} />
+            ) : (
+              "Log In"
+            )}
           </button>
         </div>
       </div>
