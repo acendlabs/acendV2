@@ -5,10 +5,12 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
   Filler,
+  ScriptableContext,
 } from "chart.js";
 
 ChartJS.register(
@@ -16,6 +18,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -42,11 +45,14 @@ const AreaChart = () => {
     ],
     datasets: [
       {
-        data: [0.1, 0.2, 0.3, 0.4, 0.1, 0.9],
+        data: [
+          0.1, 0.5, 0.3, 0.6, 0.2, 0.7, 0.3, 0.1, 0.5, 0.6, 0.9, 0.5, 0.3, 0.1,
+        ],
       },
     ],
   };
   const options = {
+    responsive: true,
     plugins: {
       legend: {
         display: false,
@@ -54,11 +60,16 @@ const AreaChart = () => {
     },
     elements: {
       line: {
-        tension: 0,
-        borderWidth: 2,
-        borderColor: "rgba(47,97,68,1)",
+        tension: 0.2,
+        borderColor: "rgb(135, 206, 235)",
         fill: "start",
-        backgroundColor: "rgba(47,97,68,0.3)",
+        backgroundColor: (context: ScriptableContext<"line">) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 500);
+          gradient.addColorStop(0, "rgba(135, 206, 235,0.5)");
+          gradient.addColorStop(1, "rgba(135, 206, 235,0)");
+          return gradient;
+        },
       },
       point: {
         radius: 0,
@@ -101,13 +112,19 @@ const DoughnutChart = () => {
     ],
   };
   const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     elements: {
       arc: {
         weight: 0.5,
-        borderWidth: 3,
+        borderWidth: 0,
       },
     },
-    cutout: 150,
+    cutout: 80,
   };
   return <Doughnut data={data} width={100} height={40} options={options} />;
 };
