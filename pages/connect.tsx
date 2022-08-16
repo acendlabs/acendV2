@@ -1,8 +1,9 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
+import Auth from "../components/Flow/Auth";
 
 const Connect: NextPage = () => {
-  return <div>please login to use this dapp</div>;
+  return <Auth />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

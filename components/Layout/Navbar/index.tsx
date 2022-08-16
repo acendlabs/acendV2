@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import useAuth from "../../../hooks/useAuth";
 import LoggedIn from "./LoggedIn";
+import { Metamask } from "@web3uikit/icons";
 
 interface IProps {
   isOpen: boolean;
@@ -75,7 +76,10 @@ const Navbar: FC<IProps> = ({ isOpen, toggle }) => {
             {status === "authenticated" ? (
               <LoggedIn address={data?.user.address} />
             ) : (
-              "Log In"
+              <div className="inline-flex gap-2">
+                <Metamask fontSize="20px" />
+                <p>Log In</p>
+              </div>
             )}
           </button>
         </div>

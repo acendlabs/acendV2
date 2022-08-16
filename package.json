@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@web3uikit/icons": "^0.1.5",
     "add": "^2.0.6",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",

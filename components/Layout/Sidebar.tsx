@@ -25,7 +25,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
       <div className={responsiveDivTag}>
         <ul className="space-y-2 relative h-full">
           <li>
-            <Link href="/portfolio">
+            <Link href="/">
               <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

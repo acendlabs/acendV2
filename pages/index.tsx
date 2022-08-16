@@ -1,6 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
+import { Portfolio as Wallet } from "../components/Modules";
 
 const Home: NextPage = () => {
   return (
@@ -10,7 +11,9 @@ const Home: NextPage = () => {
         <meta name="description" content="Acend.finace" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>last recreation</div>
+      <div>
+        <Wallet />
+      </div>
     </div>
   );
 };

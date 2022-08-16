@@ -13,7 +13,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
       <Navbar isOpen={toggle} toggle={runToggle} />
       <div className="flex h-[95vh]">
         <Sidebar isOpen={toggle} />
-        <div className="p-[2rem] w-full overflow-y-auto"> {children}</div>
+        <div className="p-[1rem] w-full overflow-y-auto"> {children}</div>
       </div>
     </div>
   );
