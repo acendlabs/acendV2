@@ -10,7 +10,7 @@ interface IProps {
 const Sidebar: FC<IProps> = ({ isOpen }) => {
   const { disconnectAsync } = useDisconnect();
   const responsiveAsideTag = `${
-    isOpen ? "w-[60px] md:w-64" : "md:w-[60px] w-0"
+    isOpen ? "w-[60px] md:w-64" : "md:w-[60px] md:flex hidden"
   } shadow-xl`;
   const responsiveDivTag = `${
     isOpen ? "px-3" : "px-0 md:px-3"
@@ -22,11 +22,11 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
   };
   return (
     <aside className={responsiveAsideTag} aria-label="Sidebar">
-      <div className={responsiveDivTag}>
+      <div className="overflow-hidden px-3 py-4 h-full bg-gray-50 rounded dark:bg-gray-900">
         <ul className="space-y-2 relative h-full">
           <li>
             <Link href="/">
-              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
+              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
@@ -45,8 +45,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
           </li>
           <li>
             <Link href="/trade">
-              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
-                {" "}
+              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
@@ -65,8 +64,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
           </li>
           <li>
             <Link href="/defi">
-              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
-                {" "}
+              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
@@ -85,7 +83,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
           </li>
           <li>
             <Link href="/nft">
-              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
+              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg
                   className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
                   fill="currentColor"
@@ -100,8 +98,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
           </li>
           <li>
             <Link href="/bridge">
-              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
-                {" "}
+              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
@@ -120,7 +117,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
           </li>
           <li>
             <Link href="/activity">
-              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100">
+              <div className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
@@ -139,7 +136,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
           </li>
           <li className="absolute bottom-6">
             <button
-              className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100"
+              className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={handleDisconnect}
             >
               <svg

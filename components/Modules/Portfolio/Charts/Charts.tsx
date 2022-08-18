@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
   Filler,
-  ScriptableContext,
 } from "chart.js";
 
 ChartJS.register(
@@ -26,25 +25,27 @@ ChartJS.register(
 );
 
 import { Line, Doughnut } from "react-chartjs-2";
+import moment from "moment";
 
 const AreaChart = () => {
   const data = {
     labels: [
-      "jan",
-      "feb",
-      "mar",
-      "apr",
-      "may",
-      "jun",
-      "jul",
-      "aug",
-      "sep",
-      "oct",
-      "nov",
-      "dec",
+      "21-jan-2022",
+      "21-feb-2022",
+      "11-mar-2022",
+      "1-apr-2011",
+      "5-may-2022",
+      "14-jun-2022",
+      "29-jul-2022",
+      "17-aug-2022",
+      "30-sep-2022",
+      "21-oct-2022",
+      "23-nov-2022",
+      "15-dec-2022",
     ],
     datasets: [
       {
+        label: "Balance",
         data: [
           0.1, 0.5, 0.3, 0.6, 0.2, 0.7, 0.3, 0.1, 0.5, 0.6, 0.9, 0.5, 0.3, 0.1,
         ],
@@ -57,23 +58,52 @@ const AreaChart = () => {
       legend: {
         display: false,
       },
+      title: {
+        display: true,
+        text: "30 Day Balance (USD)",
+        color: "rgb(135, 206, 235)",
+      },
+      tooltip: {
+        enabled: true,
+        usePointStyle: true,
+        callbacks: {
+          title: function (data: any) {
+            return moment(data[0].label).format("ddd MMM DD YYYY");
+          },
+          label: function (data: any) {
+            let label = data.dataset.label || "";
+
+            if (label) {
+              label += ": ";
+            }
+            if (data.parsed.y !== null) {
+              label += new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(data.parsed.y);
+            }
+            return label;
+          },
+        },
+        titleFontStyle: "bold",
+      },
     },
     elements: {
       line: {
         tension: 0.2,
         borderColor: "rgb(135, 206, 235)",
         fill: "start",
-        backgroundColor: (context: ScriptableContext<"line">) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 500);
+        backgroundColor: (data: any) => {
+          const ctx = data.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
           gradient.addColorStop(0, "rgba(135, 206, 235,0.5)");
           gradient.addColorStop(1, "rgba(135, 206, 235,0)");
           return gradient;
         },
       },
       point: {
-        radius: 0,
-        hitRadius: 0,
+        radius: 1,
+        hitRadius: 7,
       },
     },
     scales: {
@@ -116,6 +146,11 @@ const DoughnutChart = () => {
     plugins: {
       legend: {
         display: false,
+      },
+      title: {
+        display: true,
+        text: "Top 5 Assets",
+        color: "rgb(135, 206, 235)",
       },
     },
     elements: {
