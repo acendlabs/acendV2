@@ -27,28 +27,19 @@ ChartJS.register(
 import { Line, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 
-const AreaChart = () => {
+const AreaChart = ({
+  labelsArr,
+  dataArr,
+}: {
+  labelsArr: string[];
+  dataArr: (number | undefined)[];
+}) => {
   const data = {
-    labels: [
-      "21-jan-2022",
-      "21-feb-2022",
-      "11-mar-2022",
-      "1-apr-2011",
-      "5-may-2022",
-      "14-jun-2022",
-      "29-jul-2022",
-      "17-aug-2022",
-      "30-sep-2022",
-      "21-oct-2022",
-      "23-nov-2022",
-      "15-dec-2022",
-    ],
+    labels: labelsArr,
     datasets: [
       {
         label: "Balance",
-        data: [
-          0.1, 0.5, 0.3, 0.6, 0.2, 0.7, 0.3, 0.1, 0.5, 0.6, 0.9, 0.5, 0.3, 0.1,
-        ],
+        data: dataArr,
       },
     ],
   };
@@ -60,7 +51,7 @@ const AreaChart = () => {
       },
       title: {
         display: true,
-        text: "30 Day Balance (USD)",
+        text: "60 Day Balance (USD)",
         color: "rgb(135, 206, 235)",
       },
       tooltip: {

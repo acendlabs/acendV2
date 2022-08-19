@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AreaChart, DoughnutChart } from "./Charts";
 import { Eth } from "@web3uikit/icons";
+import useBalanceHistory from "../../../hooks/useBalanceHistory";
+import { useSession } from "next-auth/react";
+import { useNetwork } from "wagmi";
 
 function Portfolio() {
+  const { data } = useSession();
+  const { chain } = useNetwork();
+  const [chartData, setChartData] = useState<{
+    labels: string[];
+    data: (number | undefined)[];
+  }>();
+  const queryBalanceHistory = useBalanceHistory(
+    chain?.id as unknown as string,
+    data?.user.address as string
+  );
+
+  const initChart = async () =>
+    await queryBalanceHistory().then((response) => setChartData(response));
+
+  useEffect(() => {
+    if (!chartData) {
+      (async () => {
+        console.log("before async");
+        await initChart();
+        console.log("after async");
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartData]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
       {/* Area chart */}
       <div className="md:col-span-4 p-2 flex items-end bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
-        <AreaChart />
+        <AreaChart labelsArr={chartData?.labels!} dataArr={chartData?.data!} />
       </div>
       {/* Doughnut Chart */}
       <div className="md:col-span-2 p-2 w-full relative bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
