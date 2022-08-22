@@ -26,20 +26,15 @@ ChartJS.register(
 
 import { Line, Doughnut } from "react-chartjs-2";
 import moment from "moment";
+import { IMemo } from "../../../../hooks/useBalanceHistory";
 
-const AreaChart = ({
-  labelsArr,
-  dataArr,
-}: {
-  labelsArr: string[];
-  dataArr: (number | undefined)[];
-}) => {
+const AreaChart = ({ labels, data: Data }: IMemo) => {
   const data = {
-    labels: labelsArr,
+    labels: labels,
     datasets: [
       {
         label: "Balance",
-        data: dataArr,
+        data: Data,
       },
     ],
   };
@@ -148,9 +143,12 @@ const DoughnutChart = () => {
       arc: {
         weight: 0.5,
         borderWidth: 0,
+        spacing: 10,
+        borderRadius: 10,
       },
     },
-    cutout: 50,
+    cutout: "85%",
+    radius: "85%",
   };
   return <Doughnut data={data} width={100} height={40} options={options} />;
 };

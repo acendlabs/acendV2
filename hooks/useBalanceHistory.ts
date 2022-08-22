@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface IMemo {
+  labels: (string | undefined)[];
+  data: (number | undefined)[];
+}
+
 function useBalanceHistory(chainId: string, address: string) {
   const api =
     "https://api.covalenthq.com/v1/" +
@@ -15,51 +20,30 @@ function useBalanceHistory(chainId: string, address: string) {
       })
       .catch((error) => console.log(error));
 
-  type memo = {
-    time: string;
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    value?: number;
-  }[];
-
   const reduceResult = (data: { [key: string]: any }[]) => {
-    const balanceHistoryUSD = data.reduce((memo: memo, monthlyOHLC) => {
-      monthlyOHLC.holdings.map(
-        (subEl: { [key: string]: any }, subIndex: number) => {
-          if (!memo[subIndex])
-            memo[subIndex] = {
-              time: "",
-              open: 0,
-              high: 0,
-              low: 0,
-              close: 0,
-              value: 0,
-            };
-          memo[subIndex].time = subEl.timestamp.slice(0, 10);
-          memo[subIndex].open += subEl.open.quote;
-          memo[subIndex].high += subEl.high.quote;
-          memo[subIndex].low += subEl.low.quote;
-          memo[subIndex].close += subEl.close.quote;
-          memo[subIndex].value += subEl.close.quote;
-        }
-      );
-      return memo;
-    }, []);
-    return balanceHistoryUSD.reverse();
+    const balanceHistoryUSD = data.reduce(
+      (memo, monthlyOHLC) => {
+        monthlyOHLC.holdings.reverse().map((subEl: { [key: string]: any }) => {
+          memo.labels.push(subEl.timestamp.slice(0, 10));
+          memo.data.push(subEl.close.quote);
+        });
+        return memo;
+      },
+      <IMemo>{ labels: [], data: [] }
+    );
+    return balanceHistoryUSD;
   };
 
   async function queryBalanceHistory() {
     const response = await query();
-    const balanceHistoryUSD = reduceResult(response);
-    const labels: string[] = [];
-    const data: (number | undefined)[] = [];
-    balanceHistoryUSD.map((element) => {
-      labels.push(element.time);
-      data.push(element.value);
-    });
-    return { labels, data };
+    console.log(response);
+    if (response) {
+      const balanceHistoryUSD = reduceResult(response);
+      const { labels, data } = balanceHistoryUSD;
+      return { labels, data };
+    } else {
+      return { labels: [], data: [] };
+    }
   }
 
   return queryBalanceHistory;

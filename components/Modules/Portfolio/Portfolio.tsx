@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { AreaChart, DoughnutChart } from "./Charts";
-import { Eth } from "@web3uikit/icons";
-import useBalanceHistory from "../../../hooks/useBalanceHistory";
+import useBalanceHistory, { IMemo } from "../../../hooks/useBalanceHistory";
 import { useSession } from "next-auth/react";
-import { useNetwork } from "wagmi";
-
+import TokenList from "./Tokens";
+//0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8
 function Portfolio() {
   const { data } = useSession();
-  const { chain } = useNetwork();
-  const [chartData, setChartData] = useState<{
-    labels: string[];
-    data: (number | undefined)[];
-  }>();
+  const [chartData, setChartData] = useState<IMemo>();
   const queryBalanceHistory = useBalanceHistory(
-    chain?.id as unknown as string,
+    "0x5a3a83b98a3689471B033E9C41Bc434525a3115b",
+    // data?.user.chainId as unknown as string,
     data?.user.address as string
   );
 
@@ -23,9 +19,7 @@ function Portfolio() {
   useEffect(() => {
     if (!chartData) {
       (async () => {
-        console.log("before async");
         await initChart();
-        console.log("after async");
       })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +29,15 @@ function Portfolio() {
     <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
       {/* Area chart */}
       <div className="md:col-span-4 p-2 flex items-end bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
-        <AreaChart labelsArr={chartData?.labels!} dataArr={chartData?.data!} />
+        {chartData ? (
+          chartData?.data.length > 1 ? (
+            <AreaChart labels={chartData?.labels} data={chartData?.data!} />
+          ) : (
+            <div>Error</div>
+          )
+        ) : (
+          <div>Loading</div>
+        )}
       </div>
       {/* Doughnut Chart */}
       <div className="md:col-span-2 p-2 w-full relative bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
@@ -50,49 +52,11 @@ function Portfolio() {
           <p>text 5</p>
         </div>
       </div>
-      {/* Token list */}
-      <div className="md:col-start-2 md:col-span-3 p-4  w-full max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex justify-between items-center mb-4">
-          <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-            Assets
-          </h5>
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-500">
-            Balance
-          </p>
-        </div>
-        <div className="flow-root">
-          <ul
-            role="list"
-            className="divide-y divide-gray-200 dark:divide-gray-700"
-          >
-            <li className="py-3 sm:py-4">
-              <div className="flex items-center space-x-4">
-                <div className="flex-shrink-0">
-                  {/* <img
-                    className="w-8 h-8 rounded-full"
-                    src="/docs/images/people/profile-picture-1.jpg"
-                    alt="Neil image"
-                  /> */}
-                  <Eth />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    Ethereum
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-base font-semibold text-gray-900 dark:text-white">
-                    $320
-                  </p>
-                  <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                    0.15632Eth
-                  </p>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+      {/* Token List */}
+      <TokenList
+        address="0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8"
+        chain={data?.user.chainId}
+      />
       {/* services Links */}
       <div className="md:col-span-2 w-full max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <div className="flex md:flex-col items-center pb-10">
