@@ -9,9 +9,9 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     setToggle(!toggle);
   };
   return (
-    <div className="bg-white dark:bg-gray-800">
+    <div className="bg-white dark:bg-gray-800 min-h-screen">
       <Navbar isOpen={toggle} toggle={runToggle} />
-      <div className="flex h-[95vh]">
+      <div className="flex h-[93vh]">
         <Sidebar isOpen={toggle} />
         <div className="p-[1rem] w-full overflow-y-auto"> {children}</div>
       </div>

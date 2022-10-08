@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,6 +27,7 @@ ChartJS.register(
 import { Line, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import { IMemo } from "../../../../hooks/useBalanceHistory";
+import { IMemo as IMemoTokenV2 } from "../../../../hooks/useTokenBalancesV2";
 
 const AreaChart = ({ labels, data: Data }: IMemo) => {
   const data = {
@@ -46,7 +47,7 @@ const AreaChart = ({ labels, data: Data }: IMemo) => {
       },
       title: {
         display: true,
-        text: "60 Day Balance (USD)",
+        text: "60 Day Portfolio (USD)",
         color: "rgb(135, 206, 235)",
       },
       tooltip: {
@@ -104,24 +105,36 @@ const AreaChart = ({ labels, data: Data }: IMemo) => {
   return <Line data={data} width={100} height={40} options={options} />;
 };
 
-const DoughnutChart = () => {
+const DoughnutChart = ({ top5 }: { top5: IMemoTokenV2[] | undefined }) => {
+  const reducedTop5 = top5?.reduce(
+    (memo: { labels: string[]; values: number[] }, cur: IMemoTokenV2) => {
+      memo.labels.push(cur.symbol);
+      memo.values.push(cur.usdValue);
+      return memo;
+    },
+    { labels: [], values: [] }
+  );
+
   const data = {
     backgroundColor: [
       "rgb(2,88,255)",
       "rgb(249,151,0)",
       "rgb(255,199,0)",
       "rgb(32,214,152)",
+      "rgb(255,55,0)",
     ],
-    labels: ["jan", "feb", "mar", "apr"],
+    labels: reducedTop5?.labels,
+
     datasets: [
       {
         label: "first dataset",
-        data: [300, 50, 100, 200],
+        data: reducedTop5?.values,
         backgroundColor: [
           "rgb(2,88,255)",
           "rgb(249,151,0)",
           "rgb(255,199,0)",
           "rgb(32,214,152)",
+          "rgb(255,55,0)",
         ],
         hoverOffset: 4,
       },

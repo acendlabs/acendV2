@@ -25,7 +25,10 @@ function Auth() {
       <ul className="flex flex-wrap gap-5">
         {surportedNetworks.map((network, index) => {
           return (
-            <li key={index} className="bg-white rounded-full p-0.5">
+            <li
+              key={index}
+              className="bg-white dark:bg-gray-900 rounded-full p-0.5"
+            >
               <network.logo fontSize="40px" />
             </li>
           );

@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { AreaChart, DoughnutChart } from "./Charts";
 import useBalanceHistory, { IMemo } from "../../../hooks/useBalanceHistory";
+import { IMemo as ITokenV2Memo } from "../../../hooks/useTokenBalancesV2";
 import { useSession } from "next-auth/react";
 import TokenList from "./Tokens";
+import Error from "../../Flow/Error";
+import Loading from "../../Flow/Loading";
+import Services from "./Services";
+import Transfers from "./Transfers";
 //0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8
 function Portfolio() {
   const { data } = useSession();
   const [chartData, setChartData] = useState<IMemo>();
+  const [top5, setTop5] = useState<ITokenV2Memo[]>();
+
   const queryBalanceHistory = useBalanceHistory(
-    "0x5a3a83b98a3689471B033E9C41Bc434525a3115b",
     // data?.user.chainId as unknown as string,
-    data?.user.address as string
+    "1",
+    "0xCC850abe97204a34B2f8b701cEc7081Ab666fA2C"
+    // data?.user.address as string
   );
 
-  const initChart = async () =>
+  const initChart = async () => {
+    setChartData(undefined);
     await queryBalanceHistory().then((response) => setChartData(response));
+  };
 
   useEffect(() => {
     if (!chartData) {
@@ -23,49 +33,69 @@ function Portfolio() {
       })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartData]);
+  }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-6 gap-5 relative">
       {/* Area chart */}
-      <div className="md:col-span-4 p-2 flex items-end bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
+      <div className="md:col-span-4 pt-2 relative bg-white rounded-lg border border-gray-200  dark:bg-gray-800 dark:border-gray-700">
         {chartData ? (
           chartData?.data.length > 1 ? (
             <AreaChart labels={chartData?.labels} data={chartData?.data!} />
           ) : (
-            <div>Error</div>
+            <Error callback={initChart} />
           )
         ) : (
-          <div>Loading</div>
+          <Loading />
         )}
       </div>
       {/* Doughnut Chart */}
-      <div className="md:col-span-2 p-2 w-full relative bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-800">
+      <div className="md:col-span-2 p-2 w-full relative bg-white rounded-lg dark:bg-gray-800">
         <div className="w-[50%] m-auto">
-          <DoughnutChart />
+          {top5 ? <DoughnutChart top5={top5} /> : <Loading />}
         </div>
-        <div className="hidden md:flex md:flex-col">
-          <p>text 1</p>
-          <p>text 2</p>
-          <p>text 3</p>
-          <p>text 4</p>
-          <p>text 5</p>
-        </div>
+        {top5 && (
+          <div className="hidden md:flex md:flex-wrap md:justify-center md:items-center gap-5 text-gray-900 dark:text-white mt-5">
+            <p>
+              <span className="bg-[rgb(2,88,255)] mr-2 px-2.5 py-0.5 rounded" />
+              {top5[0].name}
+            </p>
+            <p>
+              <span className="bg-[rgb(249,151,0)] mr-2 px-2.5 py-0.5 rounded" />
+              {top5[1].name}
+            </p>
+            <p>
+              <span className="bg-[rgb(255,199,0)] mr-2 px-2.5 py-0.5 rounded" />
+              {top5[2].name}
+            </p>
+            <p>
+              <span className="bg-[rgb(32,214,152)] mr-2 px-2.5 py-0.5 rounded" />
+              {top5[3].name}
+            </p>
+            <p>
+              <span className="bg-[rgb(255,55,0)] mr-2 px-2.5 py-0.5 rounded" />
+              {top5[4].symbol}
+            </p>
+          </div>
+        )}
+      </div>
+      {/* services Links */}
+      <div className="md:col-span-6 w-full  bg-white rounded-lg dark:bg-gray-800">
+        <Services address={data?.user.address} />
       </div>
       {/* Token List */}
-      <TokenList
-        address="0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8"
-        chain={data?.user.chainId}
-      />
-      {/* services Links */}
-      <div className="md:col-span-2 w-full max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex md:flex-col items-center pb-10">
-          <div className="flex mt-4 space-x-3 md:mt-6">
-            <button className="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              send
-            </button>
-          </div>
-        </div>
+      <div className="md:col-span-3 p-4  md:max-w-[85%] w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-0 m-auto">
+        <TokenList
+          address="0xCC850abe97204a34B2f8b701cEc7081Ab666fA2C"
+          chain={1}
+          setTop5={setTop5}
+        />
+      </div>
+      <div className="md:col-span-3 p-4 md:max-w-[75%] w-full max-h-[85vh] overflow-y-auto overflow-x-hidden bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 mt-0 m-auto">
+        <Transfers
+          address="0xCC850abe97204a34B2f8b701cEc7081Ab666fA2C"
+          chain={1}
+        />
       </div>
     </div>
   );

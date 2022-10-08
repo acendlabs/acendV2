@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import useAuth from "../../../hooks/useAuth";
 import LoggedIn from "./LoggedIn";
 import { Metamask } from "@web3uikit/icons";
+import { getNativeBalance } from "../../Modules/Portfolio/Tokens/getTokens";
+import { formatEther } from "ethers/lib/utils";
 
 interface IProps {
   isOpen: boolean;
@@ -13,8 +15,27 @@ interface IProps {
 const Navbar: FC<IProps> = ({ isOpen, toggle }) => {
   const handleAuth = useAuth();
   const { status, data } = useSession();
+  const [userNativeBalance, setUserNativeBalance] = useState<{
+    balance: string;
+  }>({ balance: "" });
+
+  const setBalance = async () => {
+    const nativeBalance = await getNativeBalance(
+      "0xCC850abe97204a34B2f8b701cEc7081Ab666fA2C",
+      // data?.user.address,
+      1
+      // data?.user.chainId
+    );
+    setUserNativeBalance(nativeBalance);
+  };
+
+  useEffect(() => {
+    setBalance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 max-h-[7vh]">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <div className="flex md:order-2 gap-4">
           <button
@@ -68,6 +89,16 @@ const Navbar: FC<IProps> = ({ isOpen, toggle }) => {
         </div>
 
         <div className="flex md:order-2">
+          <div className="md:flex hidden mx-2">
+            <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
+              {userNativeBalance?.balance &&
+                parseFloat(
+                  formatEther(userNativeBalance?.balance)
+                ).toLocaleString("en-US", {
+                  maximumFractionDigits: 4,
+                })}
+            </span>
+          </div>
           <button
             type="button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

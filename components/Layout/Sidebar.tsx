@@ -9,9 +9,11 @@ interface IProps {
 
 const Sidebar: FC<IProps> = ({ isOpen }) => {
   const { disconnectAsync } = useDisconnect();
+  const { status } = useSession();
+
   const responsiveAsideTag = `${
     isOpen ? "w-[60px] md:w-64" : "md:w-[60px] md:flex hidden"
-  } shadow-xl`;
+  } shadow-xl h-full`;
   const responsiveDivTag = `${
     isOpen ? "px-3" : "px-0 md:px-3"
   } overflow-hidden py-4 h-full bg-gray-50 rounded dark:bg-gray-900`;
@@ -134,26 +136,30 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
               </div>
             </Link>
           </li>
-          <li className="absolute bottom-6">
-            <button
-              className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={handleDisconnect}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+          {status === "authenticated" && (
+            <li className="absolute bottom-6">
+              <button
+                className="flex items-center p-2 text-base font-semibold text-gray-900 dark:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                onClick={handleDisconnect}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="flex-1 ml-4 whitespace-nowrap">log out</span>
-            </button>
-          </li>
+                <svg
+                  className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                <span className="flex-1 ml-4 whitespace-nowrap">log out</span>
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </aside>

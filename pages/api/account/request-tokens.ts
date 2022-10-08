@@ -5,9 +5,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { address, chain } = req.body;
   await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
   try {
-    const response = await Moralis.EvmApi.account.getTokenBalances({
-      address: address,
-      chain: chain,
+    const response = await Moralis.EvmApi.token.getWalletTokenBalances({
+      address,
+      chain,
     });
     res.status(200).json(response.toJSON());
   } catch (error) {
