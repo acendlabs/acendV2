@@ -12,12 +12,12 @@ function Recieve({ address, callBack }: IProps) {
     <div
       id="recieve-modal"
       tabIndex={-1}
-      className="overflow-y-auto overflow-x-hidden fixed z-50 w-full md:inset-0 h-modal md:h-full flex justify-center items-center"
+      className="overflow-y-auto overflow-x-hidden fixed z-50 w-full md:inset-0 h-modal h-screen flex justify-center items-center backdrop-opacity-5 backdrop-invert dark:bg-gray-900/80 bg-white/80"
     >
       <div className="relative p-4 w-full max-w-md h-full md:h-auto">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="relative bg-white rounded-3xl shadow-md dark:bg-gray-800">
           <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
               {address && formatAddress(address)}{" "}
               <button
                 onClick={() =>
@@ -57,11 +57,11 @@ function Recieve({ address, callBack }: IProps) {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <div className="p-6 min-h-[300px]">
-            <div className="rounded-xl bg-white m-auto p-2 w-[80%]">
+          <div className="p-6 min-h-[300px] py-10">
+            <div className="rounded-2xl bg-white m-auto p-1 w-[80%]">
               <QRCode
                 size={256}
-                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                style={{ height: "auto", maxWidth: "100%", width: "100%", borderRadius: 15 }}
                 value={address as string}
                 viewBox={`0 0 256 256`}
               />

@@ -13,7 +13,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
 
   const responsiveAsideTag = `${
     isOpen ? "w-[60px] md:w-64" : "md:w-[60px] md:flex hidden"
-  } shadow-xl h-full`;
+  } shadow-xl h-full my-1 ml-1`;
   const responsiveDivTag = `${
     isOpen ? "px-3" : "px-0 md:px-3"
   } overflow-hidden py-4 h-full bg-gray-50 rounded dark:bg-gray-900`;
@@ -24,7 +24,7 @@ const Sidebar: FC<IProps> = ({ isOpen }) => {
   };
   return (
     <aside className={responsiveAsideTag} aria-label="Sidebar">
-      <div className="overflow-hidden px-3 py-4 h-full bg-gray-50 rounded dark:bg-gray-900">
+      <div className="overflow-hidden px-3 py-4 h-full bg-gray-50 rounded-xl dark:bg-gray-900">
         <ul className="space-y-2 relative h-full">
           <li>
             <Link href="/">

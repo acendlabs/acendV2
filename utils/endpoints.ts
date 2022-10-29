@@ -12,4 +12,4 @@ export const BalanceHistoryEndpoint = (
   address: string,
   chainId: string
 ): string =>
-  `${BASE_URL}/${chainId}/address/${address}/portfolio_v2/?quote-currency=USD&days=60&key=${COVALENT_HQ_KEY}`;
+  `${BASE_URL}/${chainId}/address/${address}/portfolio_v2/?quote-currency=USD&days=45&key=${COVALENT_HQ_KEY}`;

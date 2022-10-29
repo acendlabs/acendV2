@@ -38,7 +38,7 @@ function Auth() {
   };
   return (
     <div className="flex justify-center items-center h-full">
-      <div className=" text-center block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div className=" text-center block p-6 max-w-sm bg-gray-50 rounded-xl shadow-md dark:bg-gray-900">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           You have to LogIn to use this App
         </h5>

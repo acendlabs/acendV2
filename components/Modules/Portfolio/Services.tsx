@@ -11,9 +11,9 @@ const Services = ({ address }: { address: string | undefined }) => {
       <div className="flex mt-4 space-x-3 md:space-x-10 md:mt-6">
         <div className="m-auto">
           <Link href="/buy">
-            <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-blue-400 dark:bg-gray-700 rounded-xl">
+            <a className="inline-flex items-center py-1 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-gray-50 dark:bg-gray-900 rounded-xl">
               <svg
-                className="w-8 h-8"
+                className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -32,9 +32,9 @@ const Services = ({ address }: { address: string | undefined }) => {
         </div>
         <div className="m-auto">
           <Link href="/trade">
-            <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-blue-400 dark:bg-gray-700 rounded-xl">
+            <a className="inline-flex items-center py-1 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-gray-50 dark:bg-gray-900 rounded-xl">
               <svg
-                className="w-8 h-8"
+                className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,9 +53,9 @@ const Services = ({ address }: { address: string | undefined }) => {
         </div>
         <div className="m-auto">
           <Link href="/bridge">
-            <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-blue-400 dark:bg-gray-700 rounded-xl">
+            <a className="inline-flex items-center py-1 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-gray-50 dark:bg-gray-900 rounded-xl">
               <svg
-                className="w-8 h-8"
+                className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -74,9 +74,9 @@ const Services = ({ address }: { address: string | undefined }) => {
         </div>
         <div className="m-auto">
           <Link href="/bridge">
-            <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-blue-400 dark:bg-gray-700 rounded-xl">
+            <a className="inline-flex items-center py-1 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-gray-50 dark:bg-gray-900 rounded-xl">
               <svg
-                className="w-8 h-8"
+                className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,10 +97,10 @@ const Services = ({ address }: { address: string | undefined }) => {
         <div className="m-auto">
           <button
             onClick={() => setModal(true)}
-            className="inline-flex items-center py-2 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-blue-400 dark:bg-gray-700 rounded-xl"
+            className="inline-flex items-center py-1 px-3 text-sm font-medium text-center dark:text-gray-300 text-white shadow-md focus:outline-none bg-gray-50 dark:bg-gray-900 rounded-xl"
           >
             <svg
-              className="w-8 h-8"
+              className="flex-shrink-0 w-6 h-10 text-blue-500 transition duration-75 group-hover:text-gray-900"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"

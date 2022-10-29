@@ -1,6 +1,7 @@
 import { formatUnits } from "ethers/lib/utils";
 import React, { useState, useEffect } from "react";
 import { formatAddress } from "../../../../utils";
+import Error from "../../../Flow/Error";
 import { getTokensMetadata } from "../Tokens/getTokens";
 import { getERC20Transfers } from "./getTransfers";
 
@@ -72,7 +73,7 @@ const Transfers = ({
     return erc20Transfers.map((transfer) => {
       return (
         <li
-          className="py-1 sm:py-2 px-3 sm:px-4 rounded-2xl dark:bg-gray-700 bg-gray-100"
+          className="py-1 sm:py-2 px-3 sm:px-4 rounded-2xl dark:bg-gray-900 bg-gray-50 shadow-md"
           key={transfer?.blockTimestamp}
         >
           <div className="flex items-center space-x-4">
@@ -136,7 +137,7 @@ const Transfers = ({
                 })}{" "}
                 {erc20ContractMetadatas[transfer?.address].symbol}
               </p>
-              <p className="text-sm text-blue-500 truncate dark:text-blue-400 underline">
+              <p className="text-sm text-blue-600 truncate dark:text-blue-500 underline">
                 tx: {formatAddress(transfer?.transactionHash)}
               </p>
             </div>
@@ -160,18 +161,18 @@ const Transfers = ({
   return (
     <>
       <div className="flex justify-center mb-4">
-        <p className="text-sm font-medium text-blue-600 dark:text-blue-500">
+        <p className="text-xl text-center font-bold dark:text-gray-200 text-gray-600">
           Recent Transfers
         </p>
       </div>
       <div className="flow-root">
-        <ul role="list" className="space-y-2">
+        <ul role="list" className="space-y-3">
           {erc20Transfers.length > 0 &&
           Object.keys(erc20ContractMetadatas).length > 0 ? (
             renderList()
           ) : (
             <li className="p-4 text-center text-gray-900 dark:text-white">
-              nothing found ...
+              <Error callback={init}/>
             </li>
           )}
         </ul>

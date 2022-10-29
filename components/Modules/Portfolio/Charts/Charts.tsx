@@ -47,7 +47,7 @@ const AreaChart = ({ labels, data: Data }: IMemo) => {
       },
       title: {
         display: true,
-        text: "60 Day Portfolio (USD)",
+        text: "45 Day Portfolio (USD)",
         color: "rgb(135, 206, 235)",
       },
       tooltip: {
@@ -77,14 +77,14 @@ const AreaChart = ({ labels, data: Data }: IMemo) => {
     },
     elements: {
       line: {
-        tension: 0.2,
-        borderColor: "rgb(135, 206, 235)",
+        tension: 0.4,
+        borderColor: "rgb(59 130 246)",
         fill: "start",
         backgroundColor: (data: any) => {
           const ctx = data.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, "rgba(135, 206, 235,0.5)");
-          gradient.addColorStop(1, "rgba(135, 206, 235,0)");
+          gradient.addColorStop(0, "rgb(59, 130, 246, 0.5)");
+          gradient.addColorStop(1, "rgb(59, 130, 246, 0)");
           return gradient;
         },
       },
@@ -105,7 +105,13 @@ const AreaChart = ({ labels, data: Data }: IMemo) => {
   return <Line data={data} width={100} height={40} options={options} />;
 };
 
-const DoughnutChart = ({ top5 }: { top5: IMemoTokenV2[] | undefined }) => {
+const DoughnutChart = ({
+  top5,
+  top5TotalInUsd,
+}: {
+  top5: IMemoTokenV2[] | undefined;
+  top5TotalInUsd: number;
+}) => {
   const reducedTop5 = top5?.reduce(
     (memo: { labels: string[]; values: number[] }, cur: IMemoTokenV2) => {
       memo.labels.push(cur.symbol);
@@ -163,7 +169,36 @@ const DoughnutChart = ({ top5 }: { top5: IMemoTokenV2[] | undefined }) => {
     cutout: "85%",
     radius: "85%",
   };
-  return <Doughnut data={data} width={100} height={40} options={options} />;
+  const drawInnerText = (chart: any) => {
+    let { ctx } = chart;
+    ctx.restore();
+    ctx.font = (chart.height / 150).toFixed(2) + "em sans-serif";
+    ctx.textBaseline = "middle";
+    let text = top5TotalInUsd.toLocaleString("en-US", {
+      maximumFractionDigits: 0,
+    })+"$";
+    let textX = Math.round((chart.width - ctx.measureText(text).width) / 2);
+    let textY = chart.height / 1.8 + chart.legend.height / 2;
+    ctx.fillText(text, textX, textY);
+    ctx.fillStyle = "rgb(249,151,0)";
+    ctx.save();
+  };
+  return (
+    <Doughnut
+      data={data}
+      width={100}
+      height={40}
+      options={options}
+      plugins={[
+        {
+          id: "donor-with-label",
+          beforeDraw: function (chart) {
+            drawInnerText(chart);
+          },
+        },
+      ]}
+    />
+  );
 };
 
 export { AreaChart, DoughnutChart };
