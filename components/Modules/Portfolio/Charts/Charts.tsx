@@ -174,9 +174,10 @@ const DoughnutChart = ({
     ctx.restore();
     ctx.font = (chart.height / 150).toFixed(2) + "em sans-serif";
     ctx.textBaseline = "middle";
-    let text = top5TotalInUsd.toLocaleString("en-US", {
-      maximumFractionDigits: 0,
-    })+"$";
+    let text =
+      top5TotalInUsd.toLocaleString("en-US", {
+        maximumFractionDigits: 0,
+      }) + "$";
     let textX = Math.round((chart.width - ctx.measureText(text).width) / 2);
     let textY = chart.height / 1.8 + chart.legend.height / 2;
     ctx.fillText(text, textX, textY);

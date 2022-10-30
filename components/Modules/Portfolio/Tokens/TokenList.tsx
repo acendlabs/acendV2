@@ -78,12 +78,12 @@ const TokenList = ({
 
   const renderDesktopView = (): JSX.Element[] => {
     return userTokens
-      .filter((tokens) => tokens.isLegit)
+      .filter((tokens) => tokens?.isLegit)
       .map((token) => {
         return (
           <tr
             className="border-b border-gray-200 dark:border-gray-700"
-            key={token.contractAddress}
+            key={token?.contractAddress}
           >
             <th
               scope="row"
@@ -185,7 +185,9 @@ const TokenList = ({
               renderDesktopView()
             ) : (
               <tr className="p-4 text-center text-gray-900 dark:text-white">
-                <Error callback={init} />
+                <th>
+                  <Error callback={init} />
+                </th>
               </tr>
             )}
           </tbody>

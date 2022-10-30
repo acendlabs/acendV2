@@ -28,11 +28,9 @@ function Portfolio() {
   };
 
   const getTop5TotalInUsd = () => {
-    const top5Total = top5?.reduce((prev, cur) => 
-      prev + cur.usdValue, 0
-    )
+    const top5Total = top5?.reduce((prev, cur) => prev + cur.usdValue, 0);
     setTop5TotalInUsd(top5Total);
-  }
+  };
 
   useEffect(() => {
     if (!chartData) {
@@ -44,13 +42,12 @@ function Portfolio() {
   }, []);
 
   useEffect(() => {
-    if (top5){
+    if (top5) {
       getTop5TotalInUsd();
     }
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [top5])
-  
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [top5]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-6 gap-5 relative md:mx-3">
@@ -69,29 +66,48 @@ function Portfolio() {
       {/* Doughnut Chart */}
       <div className="md:col-span-2 p-3 w-full relative rounded-3xl bg-gray-50 dark:bg-gray-900 shadow-md">
         <div className="w-[50%] m-auto">
-          {top5 && top5TotalInUsd ? <DoughnutChart top5={top5} top5TotalInUsd={top5TotalInUsd}/> : <Loading />}
+          {top5 && top5TotalInUsd ? (
+            <DoughnutChart top5={top5} top5TotalInUsd={top5TotalInUsd} />
+          ) : (
+            <Loading />
+          )}
         </div>
-        {top5 && (
+        {top5 && top5TotalInUsd && (
           <div className="hidden md:flex md:flex-wrap md:justify-center md:items-center gap-5 text-gray-900 dark:text-white mt-5">
             <p>
               <span className="bg-[rgb(2,88,255)] mr-2 px-2.5 py-0.5 rounded" />
-              {top5[0].name} - { top5TotalInUsd && (top5[0].usdValue/top5TotalInUsd*100).toFixed(2)}%
+              {top5[0].name} -{" "}
+              {top5TotalInUsd &&
+                ((top5[0].usdValue / top5TotalInUsd) * 100).toFixed(2)}
+              %
             </p>
             <p>
               <span className="bg-[rgb(249,151,0)] mr-2 px-2.5 py-0.5 rounded" />
-              {top5[1].name} - { top5TotalInUsd && (top5[1].usdValue/top5TotalInUsd*100).toFixed(2)}%
+              {top5[1].name} -{" "}
+              {top5TotalInUsd &&
+                ((top5[1].usdValue / top5TotalInUsd) * 100).toFixed(2)}
+              %
             </p>
             <p>
               <span className="bg-[rgb(255,199,0)] mr-2 px-2.5 py-0.5 rounded" />
-              {top5[2].name} - { top5TotalInUsd && (top5[2].usdValue/top5TotalInUsd*100).toFixed(2)}%
+              {top5[2].name} -{" "}
+              {top5TotalInUsd &&
+                ((top5[2].usdValue / top5TotalInUsd) * 100).toFixed(2)}
+              %
             </p>
             <p>
               <span className="bg-[rgb(32,214,152)] mr-2 px-2.5 py-0.5 rounded" />
-              {top5[3].name} - { top5TotalInUsd && (top5[3].usdValue/top5TotalInUsd*100).toFixed(2)}%
+              {top5[3].name} -{" "}
+              {top5TotalInUsd &&
+                ((top5[3].usdValue / top5TotalInUsd) * 100).toFixed(2)}
+              %
             </p>
             <p>
               <span className="bg-[rgb(255,55,0)] mr-2 px-2.5 py-0.5 rounded" />
-              {top5[4].symbol} - { top5TotalInUsd && (top5[4].usdValue/top5TotalInUsd*100).toFixed(2)}%
+              {top5[4].symbol} -{" "}
+              {top5TotalInUsd &&
+                ((top5[4].usdValue / top5TotalInUsd) * 100).toFixed(2)}
+              %
             </p>
           </div>
         )}

@@ -172,7 +172,7 @@ const Transfers = ({
             renderList()
           ) : (
             <li className="p-4 text-center text-gray-900 dark:text-white">
-              <Error callback={init}/>
+              <Error callback={init} />
             </li>
           )}
         </ul>
